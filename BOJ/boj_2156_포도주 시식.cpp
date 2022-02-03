@@ -1,4 +1,4 @@
-// Created by strit on 2022-02-01.
+// Created by strit on 2022-02-01. silver1 2156 포도주 시식 - 동적 계획법
 #include <iostream>
 #include <algorithm>
 
