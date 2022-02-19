@@ -1,4 +1,4 @@
-// Created by strit on 2022-02-19. gold5 1451 도서관 - 그리디
+// Created by strit on 2022-02-19. gold5 1461 도서관 - 그리디
 #include <iostream>
 #include <vector>
 #include <algorithm>
