@@ -13,7 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86df80d2-d000-4000-ab51-6b3f9d7981ce" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/BOJ/boj_2252_줄 세우기.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +103,8 @@
       <workItem from="1647526570994" duration="426000" />
       <workItem from="1647611070630" duration="118000" />
       <workItem from="1648215369298" duration="827000" />
-      <workItem from="1648647161733" duration="74000" />
+      <workItem from="1648647161733" duration="722000" />
+      <workItem from="1648789969741" duration="570000" />
     </task>
     <servers />
   </component>
