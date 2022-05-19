@@ -2,8 +2,6 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
-#include <algorithm>
-#include <queue>
 
 #define MAX 16
 #define INF 987654321

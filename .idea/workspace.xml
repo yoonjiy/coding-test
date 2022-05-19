@@ -13,7 +13,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86df80d2-d000-4000-ab51-6b3f9d7981ce" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BOJ/boj_2098_외판원순회.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/BOJ/boj_2098_외판원순회.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +106,8 @@
       <workItem from="1648215369298" duration="827000" />
       <workItem from="1648647161733" duration="722000" />
       <workItem from="1648789969741" duration="1247000" />
-      <workItem from="1652881922702" duration="155000" />
+      <workItem from="1652881922702" duration="1451000" />
+      <workItem from="1652937112183" duration="1901000" />
     </task>
     <servers />
   </component>
