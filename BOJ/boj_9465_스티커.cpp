@@ -7,52 +7,16 @@
 
 using namespace::std;
 
-struct node{
-    bool detachable;
-    int value;
-    int r, c;
-};
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <cmath>
+#include <cstring>
 
-int sticker[2][100000];
-bool visited[2][100000] = {false, };
-bool detachable[2][100000] = {true, };
+using namespace::std;
 
-int dx[4] = {0, 0, -1, 1};
-int dy[4] = {1, -1, 0, 0};
-
-int sol(int width, int r, int c){
-    queue<int> q;
-    int sum;
-
-    if(!visited[r][c]){
-        q.push(sticker[r][c]);
-        visited[r][c] = true;
-    }
-
-    while(!q.empty()){
-        int v = q.front();
-        q.pop();
-
-
-        for(int i=0; i<4; i++){
-            int nr = r + dx[i];
-            int nc = c + dy[i];
-
-            if(nr < 0 || nc < 0 || nr>=2 || nc>=width || visited[nr][nc]) continue;
-
-            if(detachable[r][c]){
-                sum += v;
-                detachable[nr][nc] = false;
-            }
-
-            q.push(sticker[nr][nc]);
-            visited[nr][nc] = true;
-        }
-    }
-
-    return sum;
-}
-
+int sticker[2][100001];
+int dp[2][100001];
 
 int main() {
     ios::sync_with_stdio(false);
@@ -61,8 +25,6 @@ int main() {
     int t;
     cin >> t;
     for(int i=0; i<t; i++){
-        int max = -1;
-
         int n;
         cin >> n;
 
@@ -74,19 +36,19 @@ int main() {
             }
         }
 
-        for(int i=0; i<2; i++) {
-            for (int j = 0; j < n; j++) {
-                memset(visited, false, sizeof(visited));
-                memset(detachable, true, sizeof(detachable));
+        dp[0][0] = sticker[0][0];
+        dp[0][1] = sticker[0][1] + sticker[1][0];
+        dp[1][0] = sticker[1][0];
+        dp[1][1] = sticker[0][0] + sticker[1][1];
 
-                if(max < sol(n, i, j))
-                    max = sol(n, i, j);
-            }
+        for(int i=2; i<n; i++){
+            dp[0][i] = sticker[0][i] + max(dp[1][i-1], dp[1][i-2]);
+            dp[1][i] = sticker[1][i] + max(dp[0][i-1], dp[0][i-2]);
         }
 
-        cout << max << "\n";
+        cout << max(dp[0][n-1], dp[1][n-1]) << "\n";
+
     }
 
 
 }
-
