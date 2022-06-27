@@ -58,6 +58,11 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\strit\Documents\coding-test\BOJ" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -113,7 +118,8 @@
       <workItem from="1655822090390" duration="2683000" />
       <workItem from="1655991313781" duration="833000" />
       <workItem from="1656051696432" duration="290000" />
-      <workItem from="1656247651568" duration="3000" />
+      <workItem from="1656247651568" duration="197000" />
+      <workItem from="1656339930386" duration="4000" />
     </task>
     <servers />
   </component>
