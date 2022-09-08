@@ -13,7 +13,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86df80d2-d000-4000-ab51-6b3f9d7981ce" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/BOJ/boj_5430_AC.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -127,7 +126,8 @@
       <workItem from="1661865551513" duration="76000" />
       <workItem from="1661949809842" duration="88000" />
       <workItem from="1662467881641" duration="85000" />
-      <workItem from="1662540230950" duration="449000" />
+      <workItem from="1662540230950" duration="486000" />
+      <workItem from="1662627081275" duration="3000" />
     </task>
     <servers />
   </component>
