@@ -21,7 +21,7 @@ int main(){
 
     //에라토스테네스의 체
     isPrime[0] = isPrime[1] = false; //소수가 아님
-    for(int i=2; i<sqrt(n); i++){
+    for(int i=2; i<=sqrt(n); i++){
         if(!isPrime[i])
             continue;
         for(int j=i+i; j<=n; j += i){
@@ -37,7 +37,7 @@ int main(){
     int cnt = 0, low = 0, high = 0;
     int sum = 0;
     while(true){
-        if(sum > n){
+        if(sum >= n){
             sum -= primeNum[low++];
         }
         else if(high>=primeNum.size()){
