@@ -1,69 +1,86 @@
-// Created by strit on 2022-02-07. silver1 7576 토마토 - bfs
+// Created by strit on 2022-10-03. gold5 7576 토마토 - bfs
 #include <iostream>
+#include <algorithm>
+#include <cstring>
 #include <queue>
-using namespace std;
-int n, m, cnt;
-int row, col;
-queue<pair<int, int>> q;
-int c[4] = {1, -1, 0, 0};
-int r[4] = {0, 0, 1, -1};
+#include <math.h>
+#define INF 987654321
 
-int solution(int** box){
-    //bfs. 익은 토마토는 큐에 넣기.
-    for(int i=0; i<m; i++){
-        for(int j=0; j<n; j++){
-            if(box[i][j]==1){
-                q.push(make_pair(i, j));
-            }
+using namespace std;
+
+int n, m;
+int board[1001][1001];
+int cnt;
+int dr[] = {-1, 1, 0, 0};
+int dc[] = {0, 0, -1, 1};
+
+void bfs(int r, int c){
+    queue<pair<int, int>> q;
+    //익은 토마토 q에 넣기
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            if(board[i][j]==1)
+                q.push({i, j});
         }
     }
+
     while(!q.empty()){
-        int nrow, ncol;
-        row = q.front().first;
-        col = q.front().second;
+        int r = q.front().first;
+        int c = q.front().second;
         q.pop();
+
         for(int i=0; i<4; i++){
-            nrow = row + r[i];
-            ncol = col + c[i];
-            if(nrow<m && nrow>=0 && ncol<n && ncol>=0){
-                if(box[nrow][ncol]==0){
-                    box[nrow][ncol] = box[row][col] + 1;
-                    q.push(make_pair(nrow, ncol));
-                    cnt--;
-                }
+            int nr = r + dr[i];
+            int nc = c + dc[i];
+
+            if(nr<0 || nc<0 || nr>=n || nc>=m) continue;
+
+            if(board[nr][nc]==0){
+                cnt--;
+                board[nr][nc] = board[r][c] + 1;
+                q.push({nr, nc});
             }
         }
     }
-    if(cnt == 0)
-        return box[row][col]-1;
-    else {
-        return -1;
+
+    int ans = -2;
+    if(cnt!=0)
+        cout << "-1";
+    else{
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(ans < board[i][j])
+                    ans = board[i][j];
+            }
+        }
+
+        cout << ans-1;
     }
 }
 
-int main() {
-    cin >> n >> m;
-    int** box = new int*[m];
-    for(int i=0; i<m; i++){
-        box[i] = new int[n];
-    }
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
 
-    int check = 0;
-    for(int i=0; i<m; i++){
-        for(int j=0; j<n; j++){
-            cin >> box[i][j];
-            if(box[i][j]!=1)
-                check = 1;
-            if(box[i][j]==0)
-                cnt++;
+    cin >> m >> n;
+    //익은 토마토 1, 익지 않은 토마토 0, 없으면 -1
+    bool check = true;
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){g
+            cin >> board[i][j];
+            if(board[i][j]!=1)
+                check = false;
+            if(board[i][j]==0) cnt++;
+
         }
     }
 
-    if(!check)
-        cout << 0;
-    else
-        cout << solution(box);
-
-    return 0;
+    if(check)
+        cout << "0";
+    else{
+        bfs(0, 0);
+    }
+}
 }
 
