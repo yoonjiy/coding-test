@@ -67,7 +67,7 @@ int main(){
     //익은 토마토 1, 익지 않은 토마토 0, 없으면 -1
     bool check = true;
     for(int i=0; i<n; i++){
-        for(int j=0; j<m; j++){g
+        for(int j=0; j<m; j++){
             cin >> board[i][j];
             if(board[i][j]!=1)
                 check = false;
