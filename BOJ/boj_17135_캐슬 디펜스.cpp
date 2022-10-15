@@ -1,4 +1,4 @@
-// Created by strit on 2022-10-14.
+// Created by strit on 2022-10-14. gold3 17135 캐슬 디펜스 - 시뮬레이션
 #include <iostream>
 #include <algorithm>
 #include <cstring>
@@ -53,9 +53,10 @@ void attack(){
                 v.push_back({dist, enemy[j].second, j});
             }
 
-            sort(v.begin(), v.end(), compare);
-
-            killed_enemy.push_back(v[0].idx);
+            if(v.size()>0){
+                sort(v.begin(), v.end(), compare);
+                killed_enemy.push_back(v[0].idx);
+            }
         }
     }
 
