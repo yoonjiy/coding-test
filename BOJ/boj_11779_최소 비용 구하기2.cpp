@@ -13,6 +13,7 @@ int n, m;
 int s, e;
 vector<pair<int, int>> node[1001];
 int dist[1001];
+int path_arr[1001];
 
 
 void dijkstra(int s){
@@ -24,6 +25,7 @@ void dijkstra(int s){
     while(!pq.empty()){
         int curr = pq.top().first;
         int cost = -pq.top().second;
+        pq.pop();
 
         if(dist[curr] < cost) continue;
 
@@ -32,6 +34,7 @@ void dijkstra(int s){
             if(c < dist[node[curr][i].first]){
                 dist[node[curr][i].first] = c;
                 pq.push({node[curr][i].first, -c});
+                path_arr[node[curr][i].first] = curr; //경로 저장. path[i] = j, j번째 도시에서 온다.
             }
         }
     }
@@ -53,10 +56,23 @@ int main(){
 
     cin >> s >> e; //s -> e 최소 비용, 최소 비용을 갖는 경로에 포함되어있는 도시들 출력.
 
-    memset(dist, INF, sizeof(dist));
+    fill(dist, dist+1001, INF);
 
     dijkstra(s);
 
-    cout << dist[e]; //최소 비용
-}
+    cout << dist[e] <<"\n"; //최소 비용
 
+    vector<int> path;
+    int iter = e;
+    path.push_back(iter);
+    while(1){
+        if(iter==s) break;
+        path.push_back(path_arr[iter]);
+        iter = path_arr[iter];
+    }
+
+    cout << path.size() << "\n";
+    for(int i=path.size()-1; i>=0; i--){
+        cout << path[i] << " ";
+    }
+}
