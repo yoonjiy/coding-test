@@ -23,8 +23,8 @@ void dfs(int node){
 
         dfs(child);
 
-        dp[node][0] += dp[child][1]; // 현재 노드가 얼리가 아니라면, 주변 노드는 얼리어야 한다.
-        dp[node][1] += min(dp[child][0], dp[child][1]); // 현재 노드가 얼리라면, 주변은 얼리 또는 얼리가 아니다.
+        dp[node][0] += dp[child][1]; //부모가 얼리어답터가 아니면 자식은 무조건 얼리어답터여야 한다.
+        dp[node][1] += min(dp[child][0], dp[child][1]); //부모가 얼리어답터면 자식은 얼리어답터여도, 아니어도 된다.
     }
 }
 
@@ -44,14 +44,13 @@ int main(){
     cout.tie(0);
 
     cin >> n;
-    for(int i=0; i<n; i++) {
+    for(int i=1; i<n; i++) {
         int u, v;
         cin >> u >> v;
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
 
-    memset(dp, 0, sizeof(dp));
     make_tree(1);
     dfs(1);
     cout << min(dp[1][0], dp[1][1]);
