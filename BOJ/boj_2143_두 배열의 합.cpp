@@ -1,4 +1,4 @@
-// Created by strit on 2022-10-27
+// Created by strit on 2022-10-27. gold3 2143 두 배열의 합 - 투포인터
 
 #include <iostream>
 #include <algorithm>
