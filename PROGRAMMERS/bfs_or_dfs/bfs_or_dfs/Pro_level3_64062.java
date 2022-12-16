@@ -1,3 +1,4 @@
+package bfs_or_dfs;
 class Pro_level3_64062 {
     public int solution(int[] stones, int k) {
         int answer = 0;

@@ -1,4 +1,5 @@
-class Pro_level1_키패드누르기 {
+package etc;
+class Pro_level1_67256 {
     public String solution(int[] numbers, String hand) {
         String answer = "";
         int leftIndex = 10;

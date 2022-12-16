@@ -103,7 +103,7 @@ class Pro_level3_118669 {
         return false;
     }
     
-    static private class Node{
+    private static class Node{
         int v, cost;
         Node(int v, int cost){
             this.v = v;

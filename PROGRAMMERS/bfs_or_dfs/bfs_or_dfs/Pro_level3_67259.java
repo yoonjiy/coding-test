@@ -1,3 +1,4 @@
+package bfs_or_dfs;
 import java.util.*;
 
 class Pro_level3_67259 {

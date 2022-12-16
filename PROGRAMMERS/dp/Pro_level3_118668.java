@@ -1,4 +1,4 @@
-package bfs_or_dfs;
+package dp;
 
 class Pro_level3_118668 {
     public int solution(int alp, int cop, int[][] problems) {
