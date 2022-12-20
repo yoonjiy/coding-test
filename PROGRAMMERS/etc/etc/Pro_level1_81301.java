@@ -1,3 +1,4 @@
+package etc;
 import java.util.*;
 class Pro_level1_81301 {
     public int solution(String s) {
