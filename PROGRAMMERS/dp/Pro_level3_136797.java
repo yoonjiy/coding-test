@@ -9,7 +9,6 @@ class Pro_level3_136797 {
     String nums;
    
     public int solution(String numbers) {
-        int answer = 0;
         //최소한의 시간으로 타이핑을 하는 경우의 가중치 합을 return 
         
         initCost();

@@ -1,0 +1,60 @@
+package shortest_path;
+
+import java.util.*;
+
+class Pro_level3_132266 {
+    public List<List<Integer>> graph;
+    int[] dist;
+    public int[] solution(int n, int[][] roads, int[] sources, int destination) {
+        int[] answer = {};
+        //강철부대로 복귀할 수 있는 최단 시간, 복귀 불가능하면 -1
+        //그래프 - src, destination이 존재, 최단시간, 1로 동일 - 다익스트라
+        answer = new int[sources.length];
+        
+        graph = new ArrayList<>();
+        for(int i=0; i<=n; i++){
+            graph.add(new ArrayList<>());
+        }
+        
+        for(int[] road:roads){
+            graph.get(road[0]).add(road[1]);
+            graph.get(road[1]).add(road[0]);
+        }
+        
+        dijkstra(n, destination);
+        
+        //sources => 도착지점
+        for(int i=0; i<sources.length; i++){
+            if (dist[sources[i]]<Integer.MAX_VALUE){
+                answer[i] = dist[sources[i]];
+            } else{
+                answer[i] = -1;
+            }
+        }
+        
+        return answer;
+    }
+    
+    public void dijkstra(int n, int destination){
+        dist = new int[n+1];
+        Queue<Integer> q = new LinkedList<>();
+        
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        
+        dist[destination] = 0; //출발지점
+        q.add(destination);
+        
+        while(!q.isEmpty()){
+            int s = q.poll();
+            
+            for(int i=0; i<graph.get(s).size(); i++){
+                //최솟값 갱신
+                int next = graph.get(s).get(i);
+                if(dist[s]+1 < dist[next]){
+                    dist[next] = dist[s]+1;
+                    q.add(next);
+                }
+            }
+        }
+    }
+}
