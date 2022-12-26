@@ -1,0 +1,62 @@
+package dp;
+class Pro_level3_92344 {
+    int[][] pre_sum;
+    public int solution(int[][] board, int[][] skill) {
+        int answer = 0;
+        // 적의 공격 혹은 아군의 회복 스킬이 모두 끝난 뒤 파괴되지 않은 건물의 개수를 return
+        int n = board.length;
+        int m = board[0].length;
+        
+        pre_sum = new int[n+1][m+1];
+         
+        //skill - type, r1, c1, r2, c2, degree
+        //type 1- 적의 공격 2 - 회복
+
+
+        //skill 포인트 마킹
+        for(int[] s: skill){
+            int type = s[0];
+            int r1=s[1]; int c1=s[2];
+            int r2=s[3]; int c2=s[4];
+            int degree;
+            if(type==1){
+                degree = -1*s[5];
+            }
+            else degree = s[5];
+            
+            pre_sum[r1][c1] += degree;
+            pre_sum[r2+1][c1] -= degree;
+            pre_sum[r1][c2+1] -= degree;
+            pre_sum[r2+1][c2+1] += degree;
+        }
+        
+        //가로 누적합 
+        for(int i=0; i<n+1; i++){
+            int sum = 0;
+            for(int j=0; j<m+1; j++){
+                sum += pre_sum[i][j];
+                pre_sum[i][j] = sum;
+            }
+        }
+        
+        //세로 누적합 
+        for(int i=0; i<m; i++){
+            int sum = 0;
+            for(int j=0; j<n; j++){
+                sum += pre_sum[j][i];
+                pre_sum[j][i] = sum;
+            }
+        }
+        
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(pre_sum[i][j]+board[i][j] >= 1){
+                    answer++;
+                }
+            }
+        }
+        
+        return answer;
+    }
+
+}
