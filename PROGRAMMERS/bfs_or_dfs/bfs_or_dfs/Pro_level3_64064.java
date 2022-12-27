@@ -2,7 +2,7 @@ package bfs_or_dfs;
 
 import java.util.*;
 
-class Pro_level3_64064 {
+class Pro_level3_64046 {
     HashSet<HashSet<String>> ans = new HashSet<>();
     
     public int solution(String[] user_id, String[] banned_id) {

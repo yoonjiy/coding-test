@@ -1,0 +1,64 @@
+package bfs_or_dfs;
+import java.util.*;
+
+class Pro_level3_92343 {
+    List<List<Integer>> graph;
+    List<Integer> next_nodes;
+    int ans;
+    
+    public int solution(int[] info, int[][] edges) {
+        int answer = 0;
+        //각 노드를 방문하면서 모을 수 있는 양은 최대 몇 마리인지 return 
+        
+        graph = new ArrayList<>();
+        next_nodes = new ArrayList<>();
+        
+        for(int i=0; i<info.length; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int i=0; i<edges.length; i++){
+            graph.get(edges[i][0]).add(edges[i][1]);
+        }
+        
+        for(int i=0; i<graph.get(0).size(); i++){
+            next_nodes.add(graph.get(0).get(i));
+        }
+        
+        dfs(0, 0, 0, next_nodes, info);
+        
+        answer = ans;
+        
+        return answer;
+    }
+    
+    public void dfs(int curr, int s, int w, List<Integer> next_nodes, int[] info){
+        if(info[curr]==0){
+            //양
+            s++;
+        }else{ //늑대
+            w++;
+        }
+        
+        if(w >= s) return; //늑대가 양이랑 같거나 많아지면 잡아먹힘. 가면 안됨.
+        
+        ans = Math.max(ans, s);
+        
+        for(int i=0; i<next_nodes.size(); i++){
+            List<Integer> next = new ArrayList<>();
+            next.addAll(next_nodes);
+            
+            //현재 위치 노드 삭제
+            next.remove(Integer.valueOf(next_nodes.get(i)));
+            
+            //현재 노드의 자식 노드 추가
+            for(int j=0; j<graph.get(next_nodes.get(i)).size(); j++){
+                next.add(graph.get(next_nodes.get(i)).get(j));
+            }
+            
+            dfs(next_nodes.get(i), s, w, next, info);
+        }
+        
+        return;
+        
+    }
+}
