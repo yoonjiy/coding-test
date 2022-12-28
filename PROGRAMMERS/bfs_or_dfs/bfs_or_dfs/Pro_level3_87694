@@ -1,0 +1,75 @@
+package bfs_or_dfs;
+import java.util.*;
+
+class Pro_level3_87694 {
+    int[][] map;
+    int ans;
+    boolean[][] visited;
+    int[] dx = {0, 0, 1, -1};
+    int[] dy = {1, -1, 0, 0};
+    
+    public int solution(int[][] rectangle, int characterX, int characterY, int itemX, int itemY) {
+        int answer = 0;
+        //캐릭터가 아이템을 줍기 위해 이동해야 하는 가장 짧은 거리를 return
+        
+        map = new int[102][102];
+        
+        //테두리 표시하기
+        for(int[] r:rectangle){
+            for(int x=r[0]*2; x<=r[2]*2; x++){
+                for(int y=r[1]*2; y<=r[3]*2; y++){
+                    map[x][y] = 1;
+                }
+            }
+        }
+        
+        for(int[] r:rectangle){
+            for(int x=r[0]*2+1; x<=r[2]*2-1; x++){
+                for(int y=r[1]*2+1; y<=r[3]*2-1; y++){
+                    map[x][y] = 0;
+                }
+            }
+        }
+        
+        bfs(2*characterX, 2*characterY, 2*itemX, 2*itemY);
+        
+        return ans;
+    }
+    
+    public void bfs(int cX, int cY, int iX, int iY){
+        visited = new boolean[102][102];
+        Queue<Point> q = new LinkedList<>();
+        visited[cX][cY] = true;
+        q.add(new Point(cX, cY, 0));
+        
+        while(!q.isEmpty()){
+            Point p = q.poll();
+            
+            if(p.x==iX && p.y==iY){
+                ans = p.distance/2;
+                return;
+            }
+            
+            for(int i=0; i<4; i++){
+                int nx = dx[i] + p.x;
+                int ny = dy[i] + p.y;
+                
+                //테두리로만 이동
+                if(!visited[nx][ny] && map[nx][ny]==1){
+                    visited[nx][ny] = true;
+                    q.add(new Point(nx, ny, p.distance+1));
+                }
+                
+            }
+        }
+    }
+    
+    static class Point{
+        int x, y, distance;
+        Point(int x, int y, int distance){
+            this.x = x;
+            this.y = y;
+            this.distance = distance;
+        }
+    }
+}
