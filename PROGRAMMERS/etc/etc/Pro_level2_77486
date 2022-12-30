@@ -1,0 +1,39 @@
+package etc;
+import java.util.*;
+
+class Pro_level2_77486 {
+    
+    public int[] solution(String[] enroll, String[] referral, String[] seller, int[] amount) {
+        int[] answer = new int[enroll.length];
+        
+        //각 판매원이 득한 이익금을 나열한 배열을 return
+        //10%는 추천인에게 분배
+        Map<String, String> parent = new HashMap<>(); //자식, 부모
+        Map<String, Integer> index = new HashMap<>(); //본인, 인덱스
+        for(int i=0; i<enroll.length; i++){
+            index.put(enroll[i], i);
+            parent.put(enroll[i], referral[i]);
+        }
+    
+        for(int i=0; i<seller.length; i++){
+            String now = seller[i];
+            int profit = amount[i]*100;
+            
+            while(!now.equals("-")){
+                int add = profit/10; 
+                int left = profit-add; 
+                String p = parent.get(now); 
+                
+                answer[index.get(now)] += left;
+                
+                now = p;
+                profit = add;
+                
+                if(profit<1) break;
+            }
+            
+        }
+        
+        return answer;
+    }
+}
