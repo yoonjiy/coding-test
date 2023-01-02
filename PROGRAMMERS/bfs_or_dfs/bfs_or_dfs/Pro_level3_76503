@@ -1,0 +1,40 @@
+package bfs_or_dfs;
+import java.util.*;
+class Pro_level3_76503 {
+    List<List<Integer>> graph = new ArrayList<>();
+    long answer;
+    public long solution(int[] a, int[][] edges) {
+        //주어진 행동을 통해 트리의 모든 점들의 가중치를 0으로 만드는 것이 불가능하다면 -1을, 가능하다면 최소 몇 번만에 가능한지를 찾아 return 
+        
+        //트리 구성
+        for(int i=0; i<a.length; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int i=0; i<edges.length; i++){
+            graph.get(edges[i][0]).add(edges[i][1]);
+            graph.get(edges[i][1]).add(edges[i][0]);
+        }
+        
+        long[] sum = new long[a.length];
+        for(int i=0; i<a.length; i++){
+            sum[i] = a[i];
+        }
+        
+        dfs(0, 0, sum); //루트 노드를 0으로 지정, 부모노드도 자신이 됨
+        
+        if(sum[0]!=0){
+            answer = -1;
+        }
+        
+        return answer;
+    }
+    
+    public void dfs(int now, int parent, long[] sum){
+        for(int i=0; i<graph.get(now).size(); i++){
+            if(graph.get(now).get(i)==parent) continue;
+            dfs(graph.get(now).get(i), now, sum);
+        }
+        sum[parent] += sum[now];
+        answer += Math.abs(sum[now]);
+    }
+}
