@@ -1,0 +1,34 @@
+package bfs_or_dfs;
+import java.util.*;
+
+class Pro_level3_43164 {
+    List<String> list = new ArrayList<>();
+    boolean[] used;
+    public String[] solution(String[][] tickets) {
+        String[] answer = {};
+        //방문하는 공항 경로를 배열에 담아 return 
+        
+        used = new boolean[tickets.length];
+        
+        dfs(0, "ICN", "ICN", tickets);
+        
+        Collections.sort(list);
+        
+        return list.get(0).split(" ");
+    }
+    
+    public void dfs(int depth, String now, String route, String[][] tickets){
+        if(depth==tickets.length){
+            list.add(route);
+            return;
+        }
+        
+        for(int i=0; i<tickets.length; i++){
+            if(now.equals(tickets[i][0]) && !used[i]){
+                used[i] = true;
+                dfs(depth+1, tickets[i][1], route+" "+tickets[i][1], tickets);
+                used[i] = false;
+            }
+        }
+    }
+}
