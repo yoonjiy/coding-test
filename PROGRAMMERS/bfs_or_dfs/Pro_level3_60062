@@ -1,0 +1,69 @@
+package bfs_or_dfs;
+
+class Pro_level3_60062 {    
+    int[][] weaks;
+    int ans = Integer.MAX_VALUE;
+    public int solution(int n, int[] weak, int[] dist) {
+        int answer = 0;
+        // 취약 지점을 점검하기 위해 보내야 하는 친구 수의 최소값을 return
+        
+        //weak 지점 shift해서 모든 경우 만들기
+        weaks = new int[weak.length][weak.length];
+        weaks[0] = weak.clone();
+        for(int i=1; i<weak.length; i++){
+            int temp = weaks[i-1][0];
+            for(int j=1; j<weak.length; j++){
+                weaks[i][j-1] = weaks[i-1][j]; 
+            }
+            weaks[i][weak.length-1] = temp + n;
+        }
+        
+        //모든 dist 순열 만들기
+        dfs(0, dist.length, new boolean[dist.length], new int[dist.length], dist);
+        
+        answer = ans;
+        
+        if(answer==Integer.MAX_VALUE){
+            return -1;
+        }
+        else return answer;
+    }
+    
+    public void dfs(int idx, int depth, boolean[] visited, int[] d, int[] dist){
+        if(idx==depth){
+            for(int[] w: weaks){
+                ans = Math.min(ans, check(w,d));
+            }
+        }
+        
+        for(int i=0; i<dist.length; i++){
+            if(visited[i]) continue;
+            visited[i] = true;
+            d[idx] = dist[i];
+            
+            dfs(idx+1, depth, visited, d, dist);
+            
+            visited[i] = false;
+            d[idx] = 0;
+        }
+    }
+    
+    public int check(int[] w, int[] d){
+        int curr = 0, next;
+        int d_idx = 0;
+        while(curr < w.length && d_idx < d.length){
+            next = curr+1;
+            while(next < w.length &&
+                    w[curr] + d[d_idx] >= w[next]){
+               next++;
+            }
+            curr = next;
+            d_idx++;
+        }
+        
+        if(curr==w.length){
+            return d_idx;   
+        }
+        else return ans;
+    }
+}
