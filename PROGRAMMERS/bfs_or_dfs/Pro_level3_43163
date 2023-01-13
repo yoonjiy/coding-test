@@ -1,0 +1,52 @@
+package bfs_or_dfs;
+import java.util.*;
+class Pro_level3_43163 {
+    boolean[] visited;
+    int ans = Integer.MAX_VALUE;
+    public int solution(String begin, String target, String[] words) {
+        int answer = 0;
+        // 최소 몇 단계의 과정을 거쳐 begin을 target으로 변환할 수 있는지 return 
+    
+        visited = new boolean[words.length];
+        if(!Arrays.asList(words).contains(target)){
+            return 0;
+        }
+        else{
+            dfs(begin, target, 0, words);
+            answer = ans;
+        }
+        
+        return answer;
+    }
+    
+    public void dfs(String word, String target, int count, String[] words){
+        if(word.equals(target)){
+            ans = Math.min(count, ans);
+        }
+        
+        for(int i=0; i<words.length; i++){
+            if(visited[i]) continue;
+            
+            if(canChange(word, words[i])){
+                visited[i] = true;
+                dfs(words[i], target, count+1, words);
+                
+                visited[i] = false;
+            }
+        }
+        return;
+    }
+    
+    public boolean canChange(String word, String w){
+        int cnt = 0;
+        for(int i=0; i<word.length(); i++){
+            if(word.charAt(i)!=w.charAt(i))
+                cnt++;
+            if(cnt>1){
+                return false;
+            }
+        }
+        return true;
+    }
+
+}
