@@ -1,0 +1,41 @@
+packge bfs_or_dfs;
+
+import java.util.*;
+
+class Solution {
+    boolean[] visited;
+    public int solution(int n, int[][] computers) {
+        int answer = 0;
+        //네트워크의 개수를 return
+        
+        visited = new boolean[n];
+        for(int i=0; i<n; i++){
+            if(visited[i]) continue;
+            answer += bfs(i, n, computers);
+            
+        }
+        
+        return answer;
+    }
+    
+    public int bfs(int node, int n, int[][] computers){
+        Queue<Integer> q = new LinkedList<>();
+        
+        visited[node] = true;
+        q.add(node);
+        
+        while(!q.isEmpty()){
+            int u = q.poll();     
+            for(int i=0; i<n; i++){
+                if(i==u) continue;
+                if(visited[i]) continue;
+                if(computers[u][i]==1 && computers[i][u]==1){
+                    visited[i] = true;
+                    q.add(i);
+                }
+            }   
+        }
+        
+        return 1;
+    }
+}
