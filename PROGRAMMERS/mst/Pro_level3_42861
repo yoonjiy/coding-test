@@ -1,0 +1,55 @@
+package mst;
+import java.util.*;
+
+class Pro_level3_42861 {
+    int[] parent;
+    public int solution(int n, int[][] costs) {
+        int answer = 0;
+        //최소의 비용으로 모든 섬이 서로 통행 가능하도록 만들 때 필요한 최소 비용을 return 
+        //그래프
+        
+        //cost 오름차순 정렬
+        Arrays.sort(costs, (int[] c1, int[] c2) -> c1[2]-c2[2]);
+            
+        parent = new int[n];
+        for(int i=0; i<n; i++){
+            parent[i] = i;
+        }
+        
+        for(int[] c:costs){
+            int s = c[0];
+            int e = c[1];
+            int cost = c[2];
+            
+            if(union_node(s, e)){
+                answer += cost;
+            }
+        }
+        
+        return answer;
+    }
+    
+    public int find(int u){
+        if(parent[u]==u) return u;    
+        return parent[u] = find(parent[u]);
+    }
+    
+    public boolean union_node(int u, int v){
+        u = find(u);
+        v = find(v);
+        if(u==v) return false; //사이클 생김
+        else{
+            parent[u] = v;
+            return true;
+        }
+        
+    }
+    
+    class Node{
+        int n, cost;
+        Node(int n, int cost){
+            this.n = n;
+            this.cost = cost;
+        }
+    }
+}
