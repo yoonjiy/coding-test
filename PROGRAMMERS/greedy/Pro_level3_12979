@@ -1,0 +1,23 @@
+package greedy;
+class Pro_level3_12979 {
+    public int solution(int n, int[] stations, int w) {
+        int answer = 0;
+        //증설해야 할 기지국 개수의 최솟값을 리턴
+        
+        int idx = 0;
+        int pos = 1;
+        while(pos<=n){
+            //이미 설치된 기지국 범위 안에 있으면
+            if(idx<stations.length && stations[idx]-w <= pos){
+                //기지국 오른쪽 끝 + 1 위치로 이동
+                pos = stations[idx]+w+1;
+                idx++;
+            }
+            else{
+                answer++; //기지국 설치
+                pos += 2*w+1; 
+            }
+        }
+        return answer;
+    }
+}
