@@ -1,0 +1,54 @@
+package etc;
+import java.util.*;
+class Pro_level3_17676 {
+    List<Traffic> list = new ArrayList<>();
+    public int solution(String[] lines) {
+        int answer = 0;
+        
+        for(int i=0; i<lines.length; i++){
+            String line = lines[i];
+            String[] arr = line.split(" ");
+            String s = arr[1];
+            String st =  arr[2].substring(0, arr[2].length()-1);
+            
+            double dt = Double.parseDouble(st) * (double)1000;
+            int t = (int)dt;
+            int cs = convertToMsec(arr[1]);
+            list.add(new Traffic(cs-t+1, cs));
+        }
+        
+        int scnt, ecnt;
+        //시작점, 끝점으로부터 1초 카운트
+        for(int i=0; i<list.size(); i++){
+            scnt = 1;
+            ecnt = 1;
+            for(int j=i+1; j<list.size(); j++){
+                if(list.get(i).s+1000 > list.get(j).s){
+                    scnt++;
+                }   
+                if(list.get(i).e+1000 > list.get(j).s){
+                    ecnt++;
+                }
+            }
+            answer = Math.max(Math.max(scnt, ecnt), answer);
+        }
+        
+        return answer;
+    }
+    
+    static class Traffic{
+        int s, e;
+        Traffic(int s, int e){
+            this.s = s;
+            this.e = e;
+        }
+    }
+    static int convertToMsec(String s){
+        String[] str = s.split(":");
+        int hour = Integer.parseInt(str[0]);
+        int min = Integer.parseInt(str[1]);
+        double dmsec = Double.parseDouble(str[2]) * (double)1000;
+        int msec = (int)dmsec;
+        return hour*60*60*1000 + min*60*1000 + msec;
+    }
+}
