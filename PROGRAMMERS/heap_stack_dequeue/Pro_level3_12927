@@ -1,0 +1,32 @@
+package heap_stack_dequeue;
+import java.util.*;
+
+class Pro_level3_12927 {
+    public long solution(int n, int[] works) {
+        long answer = 0;
+        //야근 피로도를 최소화한 값을 리턴
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        for(int w:works){
+            pq.add(w); //내림차순 정렬
+        }
+        
+        while(n!=0){
+            int max = pq.poll();
+            max--;
+            if(max!=0){
+                pq.add(max);
+            }
+            if(pq.isEmpty()){
+                return 0;
+            }
+            n--;
+        }
+        
+        while(!pq.isEmpty()){
+            int num = pq.poll();
+            answer += (long)num*num;
+        }
+        
+        return answer;
+    }
+}
