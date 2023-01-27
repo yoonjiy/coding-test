@@ -1,0 +1,24 @@
+package etc;
+class Pro_level3_12938 {
+    public int[] solution(int n, int s) {
+        int[] answer = {};
+        //n개의 숫자 합이 s
+        //3개 9 -> 3 3 3
+        //3개 10 -> 3 3 4
+        //3개 11 -> 3 4 4
+        int m = s/n;
+        int r = s%n;
+        if(m==0){
+            return new int[]{-1};
+        }
+        answer = new int[n];
+        for(int i=n-1; i>=0; i--){
+            answer[i] = m;
+            if(r>0){
+                answer[i]++;
+                r--;
+            }
+        }
+        return answer;
+    }
+}
