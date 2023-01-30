@@ -1,0 +1,27 @@
+package etc;
+class Pro_level3_12904
+{
+    public int solution(String s)
+    {
+        int answer = 0;
+        //가장 긴 팰린드롬의 길이를 return
+        
+        for(int len=s.length(); len>=1; len--){
+            //시작 인덱스
+            for(int start=0; start+len<=s.length(); start++){
+                boolean check = true;
+                for(int k=0; k<len/2; k++){
+                    if(s.charAt(start+k)!=s.charAt(start+len-k-1)){
+                        check = false;
+                        break;
+                    }
+                }
+                if(check){
+                    return len;
+                }
+            }
+        }
+        
+        return answer;
+    }
+}
