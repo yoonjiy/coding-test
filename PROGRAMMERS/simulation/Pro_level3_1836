@@ -1,0 +1,124 @@
+package simulation;
+
+import java.util.*;
+
+class Pro_level3_1836 {
+    char[][] map;
+    List<Character> tiles = new ArrayList<>();
+    Map<Character, List<Point>> hs = new HashMap<>();
+    public String solution(int m, int n, String[] board) {
+        String answer = "";
+        map = new char[m][n];
+        
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                map[i][j] = board[i].charAt(j);
+            }
+        }
+        
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(map[i][j]>='A' && map[i][j]<='Z'){
+                    if(!tiles.contains(map[i][j])){
+                        tiles.add(map[i][j]);
+                        //hs에 위치 저장
+                        hs.put(map[i][j], new ArrayList<>());
+                        hs.get(map[i][j]).add(new Point(i, j));
+                    }else{
+                        hs.get(map[i][j]).add(new Point(i, j));
+                    }
+                }
+            }
+        }
+        
+        Collections.sort(tiles);
+        
+        int idx = 0;
+        while(tiles.size()!=0){
+            char tile = tiles.get(idx);
+            if(canRemove(tile)){
+                char t = tiles.remove(idx);
+                answer += t;
+                //board에서 tile .으로 대체
+                removeTile(t);
+                idx = 0; //처음부터 다시 검사
+            }
+            else{
+                idx++;
+                if(idx==tiles.size()){
+                    answer = "IMPOSSIBLE";
+                    break;
+                }
+            }
+        }
+        
+        return answer;
+    }
+    
+    void removeTile(char t){
+        Point p1 = hs.get(t).get(0);
+        Point p2 = hs.get(t).get(1);
+        
+        map[p1.r][p1.c] = '.';
+        map[p2.r][p2.c] = '.';
+    }
+
+    boolean canRemove(char tile){
+        Point p1 = hs.get(tile).get(0);
+        Point p2 = hs.get(tile).get(1);
+        
+        int r1 = p1.r;
+        int c1 = p1.c;
+        int r2 = p2.r;
+        int c2 = p2.c;
+        
+        //왼쪽 상, 오른쪽 하 
+        if(c1<c2){
+            //ㄱ 모양 장애물 확인
+            if(checkWidth(c1, c2, r1, tile) && checkHeight(r1, r2, c2, tile)){
+                return true;
+            }
+            //ㄴ 모양 장애물 확인
+            if(checkHeight(r1, r2, c1, tile) && checkWidth(c1, c2, r2, tile)){
+                return true;
+            }
+        }
+        //왼쪽 하, 오른쪽 상
+        else{
+            if(checkWidth(c2, c1, r1, tile) && checkHeight(r1, r2, c2, tile)){
+                return true;
+            }
+            if(checkHeight(r1, r2, c1, tile) && checkWidth(c2, c1, r2, tile)){
+                return true;
+            }
+            
+        }
+        return false;
+    }
+    
+    boolean checkWidth(int c1, int c2, int r, char tile){
+        for(int i=c1; i<=c2; i++){
+            if(map[r][i]!='.' && map[r][i]!=tile){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    boolean checkHeight(int r1, int r2, int c, char tile){
+        for(int i=r1; i<=r2; i++){
+            if(map[i][c]!='.' && map[i][c]!=tile){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    static class Point{
+        int r, c;
+        Point(int r, int c){
+            this.r = r;
+            this.c = c;
+        }
+    }
+}
