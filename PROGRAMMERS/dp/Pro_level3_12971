@@ -1,0 +1,32 @@
+package dp;
+class Pro_level3_12971 {
+    public int solution(int sticker[]) {
+        int answer = 0;
+
+        //스티커를 뜯어내어 얻을 수 있는 숫자의 합의 최댓값을 return 
+        //dp[i]는 i번째 인덱스의 최대값
+        
+        if(sticker.length==1){
+            return sticker[0];
+        }
+        
+        //첫번째 스티커를 뗀 경우 -> 마지막 스티커 못 뗌
+        int[] dp = new int[sticker.length];
+        dp[0] = dp[1] = sticker[0];
+        for(int i=2; i<sticker.length-1; i++){
+            dp[i] = Math.max(dp[i-2]+sticker[i], dp[i-1]);
+        }
+        answer = dp[sticker.length-2];
+        
+        //첫번째 스티커를 안 뗀 경우
+        dp[0] = 0;
+        dp[1] = sticker[1];
+        for(int i=2; i<sticker.length; i++){
+            dp[i] = Math.max(dp[i-2]+sticker[i], dp[i-1]);
+        }
+        
+        answer = Math.max(dp[sticker.length-1], answer);
+        
+        return answer;
+    }
+}
