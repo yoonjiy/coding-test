@@ -1,0 +1,45 @@
+package bfs_or_dfs;
+import java.util.*;
+
+class Pro_level3_12987 {
+    boolean[] visited;
+    int ans;
+    public int solution(int[] A, int[] B) {
+        int answer = -1;
+        //B 팀원들이 얻을 수 있는 최대 승점을 return
+        
+        //1. dfs로 순열 구하기
+        visited = new boolean[B.length];
+        
+        dfs(0, new int[B.length], B, A);
+    
+        answer = ans;
+        
+        return answer;
+    }
+    
+    void dfs(int idx, int[] list, int[] B, int[] A){
+        if(idx==B.length){
+            ans = Math.max(ans, calScore(A, list));
+        }
+        for(int i=0; i<B.length; i++){
+            if(visited[i]) continue;
+            visited[i] = true;
+            list[idx] = B[i];
+            
+            dfs(idx+1, list, B, A);
+            
+            visited[i] = false;
+        }
+    }
+    
+    int calScore(int[] A, int[] b){
+        int score = 0;
+        for(int i=0; i<A.length; i++){
+            if(A[i] < b[i])
+                score++;
+        }
+        
+        return score;
+    }
+}
