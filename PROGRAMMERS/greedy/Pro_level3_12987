@@ -1,0 +1,29 @@
+package greedy;
+import java.util.*;
+
+class Pro_level3_12987 {
+    public int solution(int[] A, int[] B) {
+        int answer = 0;
+        //B 팀원들이 얻을 수 있는 최대 승점을 return
+
+        Arrays.sort(A);
+        Arrays.sort(B);
+        
+        //1 3 5 7
+        //2 2 6 8 
+        int aidx = 0;
+        int bidx = 0;
+        while(bidx < B.length){
+            if(A[aidx] < B[bidx]){
+                answer++;
+                aidx++; 
+            }
+            bidx++;
+        }
+        
+        return answer;
+    }
+
+    
+
+}
