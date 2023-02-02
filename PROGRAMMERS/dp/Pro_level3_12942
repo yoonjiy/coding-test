@@ -1,0 +1,28 @@
+package dp;
+class Pro_level3_12942 {
+    public int solution(int[][] matrix_sizes) {
+        int answer = 0;
+        // 모든 행렬을 곱하기 위한 최소 곱셈 연산의 수를 return
+        
+        int len = matrix_sizes.length;
+        
+        //dp[i][j] = i~j까지 행렬 곱의 최소 곱셈 연산 수
+        int[][] dp = new int[len][len];
+    
+        //구간 범위 크기
+        for(int i=1; i<=len; i++){
+            //시작 지점
+            for(int j=0; j+i<len; j++){
+                dp[j][i+j] = Integer.MAX_VALUE; 
+                //중간 지점
+                for(int k=j; k<j+i; k++){
+                    dp[j][i+j] = Math.min(dp[j][i+j], dp[j][k] + dp[k+1][i+j] + matrix_sizes[j][0]*matrix_sizes[k][1]*matrix_sizes[i+j][1]);
+                }
+            }
+        }
+        
+        answer = dp[0][len-1];
+        
+        return answer;
+    }
+}
