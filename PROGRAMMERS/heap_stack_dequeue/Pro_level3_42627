@@ -1,0 +1,37 @@
+package heap_stack_dequeue;
+import java.util.*;
+class Pro_level3_42627 {
+    public int solution(int[][] jobs) {
+        int answer = 0;
+        //작업의 요청부터 종료까지 걸린 시간의 평균을 가장 줄이는 방법으로 처리하면 평균이 얼마가 되는지 return 
+        
+        //요청 순서대로 정렬
+        Arrays.sort(jobs, (o1, o2)->o1[0]-o2[0]);
+        //수행시간 짧은 순서대로 정렬
+        PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2)->o1[1]-o2[1]);
+        
+        //요청이 모두 수행될 때까지
+        int count = 0;
+        int idx = 0;
+        int end = 0;
+        while(count<jobs.length){
+            while(idx<jobs.length && jobs[idx][0] <= end){
+                pq.add(jobs[idx++]);
+            }
+            
+            if(pq.isEmpty()){
+                end = jobs[idx][0];
+            }
+            else{
+                int[] curr = pq.poll();
+                answer += end - curr[0] + curr[1];
+                end += curr[1];
+                count++;
+            }
+            
+        }
+            
+        answer /= jobs.length;
+        return answer;
+    }
+}
