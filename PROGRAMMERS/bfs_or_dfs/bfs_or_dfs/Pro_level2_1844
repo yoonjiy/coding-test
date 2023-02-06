@@ -1,0 +1,58 @@
+package bfs_or_dfs;
+import java.util.*;
+
+class Pro_level2_1844 {
+    int n, m;
+    boolean[][] visited;
+    int ans = Integer.MAX_VALUE;
+    int[] dr = {0, 0, -1, 1};
+    int[] dc = {-1, 1, 0, 0};
+    public int solution(int[][] maps) {
+        int answer = 0;
+        //캐릭터가 상대 팀 진영에 도착하기 위해서 지나가야 하는 칸의 개수의 최솟값을 return
+        n = maps.length;
+        m = maps[0].length;
+        visited = new boolean[n][m];
+        
+        bfs(maps);
+        if(ans==Integer.MAX_VALUE){
+            return -1;
+        }
+        else return ans;
+    }
+    
+    public void bfs(int[][] maps){
+        Queue<Point> q = new LinkedList<>();
+        q.add(new Point(0, 0, 1));
+        visited[0][0] = true;
+        
+        while(!q.isEmpty()){
+            Point p = q.poll();
+            
+            if(p.r==n-1 && p.c==m-1){
+                ans = Math.min(ans, p.dist);
+            }
+            
+            for(int i=0; i<4; i++){
+                int nr = p.r + dr[i];
+                int nc = p.c + dc[i];
+                
+                if(nr<0 || nc<0 || nr>=n || nc>=m) continue;
+                if(maps[nr][nc]==0 || visited[nr][nc]) continue;
+                
+                visited[nr][nc] = true;
+                q.add(new Point(nr, nc, p.dist+1));
+            }
+        }
+    }
+    
+    static class Point{
+        int r, c;
+        int dist;
+        Point(int r, int c, int dist){
+            this.r = r;
+            this.c = c;
+            this.dist = dist;
+        }
+    }
+}
