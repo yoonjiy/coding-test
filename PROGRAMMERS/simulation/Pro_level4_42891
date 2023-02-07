@@ -1,0 +1,62 @@
+package simulation;
+import java.util.*;
+
+class Pro_level4_42891 {
+    public int solution(int[] food_times, long k) {
+        int answer = 0;
+        //몇 번 음식부터 다시 섭취하면 되는지 return
+        
+        long sum = 0;
+        for(int i=0; i<food_times.length; i++){
+            sum += (long)food_times[i];
+        }
+        if(sum <= k) return -1; //모든 음식을 다 먹음
+        
+        PriorityQueue<Food> pq = new PriorityQueue<>();
+        int len = food_times.length;
+        for(int i=0; i<len; i++){
+            pq.add(new Food(i+1, food_times[i]));
+        }
+        
+        long total_time = 0;
+        long prev_time = 0;
+
+        while(total_time + (pq.peek().time-prev_time)*len <= k){
+            int curr = pq.poll().time;
+            total_time += (curr-prev_time)*len;
+            len -= 1;
+            prev_time =  curr;
+        }
+        
+        //index 순 정렬
+        List<Food> list = new ArrayList<>();
+        while(!pq.isEmpty()){
+            list.add(pq.poll());
+        }
+        
+        Collections.sort(list, new Comparator<Food>(){
+            @Override
+            public int compare(Food o1, Food o2){
+                return Integer.compare(o1.idx, o2.idx);
+            }
+        });
+        
+        
+        return list.get((int)((k-total_time)%len)).idx;  
+        
+    }
+    
+    static class Food implements Comparable<Food>{
+        int idx;
+        int time;
+        Food(int idx, int time){
+            this.idx = idx;
+            this.time = time;
+        }
+        
+        @Override
+        public int compareTo(Food o){
+            return Integer.compare(this.time, o.time);
+        }
+    }
+}
