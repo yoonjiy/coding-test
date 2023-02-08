@@ -1,0 +1,42 @@
+package heap_stack_dequeue;
+import java.util.*;
+
+class Pro_level3_42628 {
+    public int[] solution(String[] operations) {
+        int[] answer = new int[2];
+        PriorityQueue<Integer> minpq = new PriorityQueue<>();
+        PriorityQueue<Integer> maxpq = new PriorityQueue<>(Collections.reverseOrder());
+        
+        for(String s:operations){
+            String type = s.substring(0, 1);
+            if(type.equals("I")){
+                int num = Integer.parseInt(s.substring(2));
+                minpq.add(num);
+                maxpq.add(num);
+            }
+            else if(type.equals("D") && !maxpq.isEmpty() && !minpq.isEmpty()){
+                if(s.charAt(2)=='-'){
+                    //최솟값 삭제
+                    int min = minpq.poll();
+                    maxpq.remove(min);
+                }
+                else{
+                    //최댓값 삭제
+                    int max = maxpq.poll();
+                    minpq.remove(max);
+                }
+            }
+        }
+        
+        if(!minpq.isEmpty() && !maxpq.isEmpty()){
+            answer[0] = maxpq.poll();
+            answer[1] = minpq.poll();
+        }
+        else{
+            answer[0] = 0;
+            answer[1] = 0;
+        }
+        
+        return answer;
+    }
+}
