@@ -1,0 +1,49 @@
+package dp;
+import java.util.*;
+
+class Pro_level3_133500 {
+    List<List<Integer>> graph = new ArrayList<>();
+    boolean[] visited;
+    int[][] dp;
+    public int solution(int n, int[][] lighthouse) {
+        int answer = 0;
+        // 윤성이가 켜 두어야 하는 등대 개수의 최솟값을 return 
+        
+        for(int i=0; i<=n; i++){
+            graph.add(new ArrayList<>());
+        }
+        
+        for(int[] l:lighthouse){
+            graph.get(l[0]).add(l[1]);
+            graph.get(l[1]).add(l[0]);
+        }
+        
+        visited = new boolean[n+1];
+        dp = new int[n+1][2];
+        dfs(1);
+        
+        answer = Math.min(dp[1][0], dp[1][1]);
+        
+        return answer;
+    }
+    
+    public void dfs(int node){
+        visited[node] = true;
+        
+        dp[node][0] = 0; //부모의 등대가 꺼져있음 -> 자식의 등대는 무조건 켜져야 함
+        dp[node][1] = 1; //부모의 등대가 켜져있음 -> 자식의 등대는 켜질수도, 꺼질수도 있음
+        
+        for(int i=0; i<graph.get(node).size(); i++){
+            int child = graph.get(node).get(i);
+            
+            if(visited[child]) continue;
+            
+            dfs(child);
+            
+            dp[node][0] += dp[child][1];
+            dp[node][1] += Math.min(dp[child][0], dp[child][1]);
+            
+        }
+    }
+    
+}
