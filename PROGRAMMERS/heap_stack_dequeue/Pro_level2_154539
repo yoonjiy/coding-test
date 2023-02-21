@@ -1,0 +1,27 @@
+package heal_stack_dequeue;
+import java.util.*;
+
+class Pro_level2_154539 {
+    public int[] solution(int[] numbers) {
+        int[] answer = {};
+        //모든 원소에 대한 뒷 큰수들을 차례로 담은 배열을 return
+        
+        int len = numbers.length;
+        answer = new int[len];
+        Stack<Integer> stack = new Stack<>();
+        
+        for(int i=0; i<len; i++){
+            while(!stack.isEmpty() && numbers[stack.peek()] < numbers[i]){
+                answer[stack.pop()] = numbers[i]; 
+            }
+            stack.push(i); //하강곡선일 때
+        }
+        
+        while(!stack.isEmpty()){
+            answer[stack.pop()] = -1;
+        }
+        
+        return answer;
+        
+    }
+}
