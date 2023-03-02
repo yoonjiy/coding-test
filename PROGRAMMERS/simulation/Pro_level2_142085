@@ -1,0 +1,26 @@
+import java.util.*;
+
+class Pro_level2_142085 {
+    public int solution(int n, int k, int[] enemy) {
+        int answer = 0;
+        //준호가 몇 라운드까지 막을 수 있는지 return 
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        int idx;
+        for(idx=0; idx<enemy.length; idx++){
+            n -= enemy[idx];
+            pq.add(enemy[idx]);
+            if(n<0 && k>0 && !pq.isEmpty()){
+                int e = pq.poll(); //무적권 사용
+                n += e;
+                k--;
+            }
+            else if(n<0 && k<=0) break;
+            
+        }
+        
+        answer = idx;
+        
+        return answer;
+    }
+}
