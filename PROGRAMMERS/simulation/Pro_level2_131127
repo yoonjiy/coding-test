@@ -12,25 +12,16 @@ class Pro_level2_131127 {
             hm.put(discount[i], hm.getOrDefault(discount[i], 0)+1);
         }
         
+        if(compareToWant(hm, want, number)) answer = 1;
         //want:number와 discount 비교
-        int left = 0;
-        int right = 10;
-        int day = -1;
-        for(int i=right; i<discount.length; i++){
-            if(!compareToWant(hm, want, number)){
-                //만족이 안되면 하루 이동
-                hm.replace(discount[left], hm.get(discount[left])-1); left++;
-                hm.put(discount[i], hm.getOrDefault(discount[i], 0)+1);
-            }
-            else {
-                day = i-1;
-                break;
-            }
+        for(int i=0; i<discount.length-10; i++){
+            hm.replace(discount[i], hm.get(discount[i])-1);
+            hm.put(discount[i+10], hm.getOrDefault(discount[i+10], 0)+1);
+            
+            if(compareToWant(hm, want, number)) answer++;
         }
         
-        if(day==-1) return 0;
-        else return discount.length-day;
-        //return answer;
+        return answer;
         
     }
     
