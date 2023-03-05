@@ -1,0 +1,45 @@
+package simulation;
+
+import java.util.*;
+
+class Pro_level2_131127 {
+    public int solution(String[] want, int[] number, String[] discount) {
+        int answer = 0;
+        //회원등록시 정현이가 원하는 제품을 모두 할인 받을 수 있는 회원등록 날짜의 총 일수를 return
+        
+        Map<String, Integer> hm = new HashMap<>(); //종류:개수
+        for(int i=0; i<10; i++){
+            hm.put(discount[i], hm.getOrDefault(discount[i], 0)+1);
+        }
+        
+        //want:number와 discount 비교
+        int left = 0;
+        int right = 10;
+        int day = -1;
+        for(int i=right; i<discount.length; i++){
+            if(!compareToWant(hm, want, number)){
+                //만족이 안되면 하루 이동
+                hm.replace(discount[left], hm.get(discount[left])-1); left++;
+                hm.put(discount[i], hm.getOrDefault(discount[i], 0)+1);
+            }
+            else {
+                day = i-1;
+                break;
+            }
+        }
+        
+        if(day==-1) return 0;
+        else return discount.length-day;
+        //return answer;
+        
+    }
+    
+    public boolean compareToWant(Map<String, Integer> hm, String[] want, int[] number){
+        for(int i=0; i<want.length; i++){
+            if(!hm.containsKey(want[i]) || hm.get(want[i])!=number[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+}
