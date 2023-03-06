@@ -1,0 +1,45 @@
+package simulation;
+import java.util.*;
+
+class Pro_level2_131704 {
+    public int solution(int[] order) {
+        //영재가 몇 개의 상자를 실을 수 있는지 return    
+        int answer = 0;
+        
+        int len = order.length;
+        Queue<Integer> main = new LinkedList<>();
+        for(int i=1; i<=len; i++){
+            main.offer(i);
+        }
+        
+        Stack<Integer> sub = new Stack<>();
+       
+        int now = 0;
+        for(int o:order){
+            while(true){
+                if(o < now){
+                    if(sub.peek()==o){
+                        now = sub.pop();
+                        answer++;
+                        break;
+                    }
+                    else{
+                        return answer;
+                    }
+                }
+                else if(!main.isEmpty()){
+                    if(main.peek()==o){
+                        now = main.poll();
+                        answer++;
+                        break;
+                    }
+                    else{
+                        sub.push(main.poll());
+                    }
+                }
+            }
+        }
+        
+        return answer;
+    }
+}
