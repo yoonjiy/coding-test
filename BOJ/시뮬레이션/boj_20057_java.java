@@ -1,35 +1,38 @@
+package 시뮬레이션;
+
 import java.util.*;
+import java.io.*;
 
-// Online Java Compiler
-// Use this editor to write, compile and run your Java code online
-
-class boj_20057_java {
-    int[] dr = {0, 1, 0, -1}; //서, 남, 동, 북
-    int[] dc = {-1, 0, 1, 0};
-    int[][] spreadR = { //서, 남, 동, 북
-        {1, -1, 2, -2, 1, -1, 1, -1, 0, 0},
-        {0, 0, 1, 1, 1, 1, 2, 2, 3, 2},
-        {1, -1, 2, -2, 1, -1, 1, -1, 0, 0},
-        {0, 0, 1, 1, 1, 1, 2, 2, 3, -2}
+public class boj_20057_java {
+    static int[] dr = {0, 1, 0, -1}; //서, 남, 동, 북
+    static int[] dc = {-1, 0, 1, 0};
+    static int spreadR[][] = {
+        {-1, 1, -1, 1, -1, 1, -2, 2, 0, 0},
+        {0, 0, 1, 1, 2, 2, 1, 1, 3, 2},
+        {-1, 1, -1, 1, -1, 1, -2, 2, 0, 0},
+        {0, 0, -1, -1, -2, -2, -1, -1, -3, -2}
     };
-    int[][] spreadC = {
-        {0, 0, -1, -1, -1, -1, -2, -2, -3, -2},
-        {-1, 1, -2, 2, -1, 1, -1, 1, 0, 0},
-        {0, 0, 1, 1, 1, 1, 2, 2, 3, 2},
-        {-1, 1, -2, 2, -1, 1, -1, 1, 0, 0}
+    static int spreadC[][] = {
+        {0, 0, -1, -1, -2, -2, -1, -1, -3, -2},
+        {-1, 1, -1, 1, -1, 1, -2, 2, 0, 0},
+        {0, 0, 1, 1, 2, 2, 1, 1, 3, 2},
+        {-1, 1, -1, 1, -1, 1, -2, 2, 0, 0}
     };
-    int[] percent = {1, 1, 2, 2, 7, 7, 10, 10, 5};
-    int[][] sand = new int[500][500];
-    int answer;
+    static int percent[] = { 1, 1, 7, 7, 10, 10, 2, 2, 5 };
     
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        int n;
-        n = scan.nextInt();
+    static int[][] sand;
+    static int answer;
+    static int n;
+    
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.parseInt(br.readLine());
+        sand = new int[n][n];
         
-        for(int i=0; i<r; i++){
-            for(int j=0; j<c; j++){
-                sand[i][j] = scan.nextInt();
+        for(int i=0; i<n; i++){
+            StringTokenizer st= new StringTokenizer(br.readLine());
+            for(int j=0; j<n; j++){
+                sand[i][j] = Integer.parseInt(st.nextToken());
             }
         }
         
@@ -50,6 +53,7 @@ class boj_20057_java {
                 //방향 전환
                 dir = (dir+1)%4;
             }
+
             moveCnt++;
     
             if(moveCnt==n){
@@ -65,17 +69,16 @@ class boj_20057_java {
         System.out.println(answer);
     }
     
-    public void spreadSand(int r, int c, int dir){
-        int nr = r + dr[i];
-        int nc = c + dc[i]; 
+    private static void spreadSand(int r, int c, int dir){
+        int nr = r + dr[dir];
+        int nc = c + dc[dir]; 
         int curr = sand[nr][nc];
         
-        int temp = 0;
         for(int i=0; i<9; i++){
             int nnr = r + spreadR[dir][i];
             int nnc = c + spreadC[dir][i];
             
-            int plus = curr*(percent[i]/100);
+            int plus = curr*percent[i]/100;
             
             if(nnr<0 || nnc<0 || nnr>=n || nnc>=n){
                 //격자 밖으로 나간 모래
