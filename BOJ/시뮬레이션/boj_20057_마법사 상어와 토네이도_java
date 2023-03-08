@@ -1,0 +1,103 @@
+import java.util.*;
+
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+class boj_20057_java {
+    int[] dr = {0, 1, 0, -1}; //서, 남, 동, 북
+    int[] dc = {-1, 0, 1, 0};
+    int[][] spreadR = { //서, 남, 동, 북
+        {1, -1, 2, -2, 1, -1, 1, -1, 0, 0},
+        {0, 0, 1, 1, 1, 1, 2, 2, 3, 2},
+        {1, -1, 2, -2, 1, -1, 1, -1, 0, 0},
+        {0, 0, 1, 1, 1, 1, 2, 2, 3, -2}
+    };
+    int[][] spreadC = {
+        {0, 0, -1, -1, -1, -1, -2, -2, -3, -2},
+        {-1, 1, -2, 2, -1, 1, -1, 1, 0, 0},
+        {0, 0, 1, 1, 1, 1, 2, 2, 3, 2},
+        {-1, 1, -2, 2, -1, 1, -1, 1, 0, 0}
+    };
+    int[] percent = {1, 1, 2, 2, 7, 7, 10, 10, 5};
+    int[][] sand = new int[500][500];
+    int answer;
+    
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int n;
+        n = scan.nextInt();
+        
+        for(int i=0; i<r; i++){
+            for(int j=0; j<c; j++){
+                sand[i][j] = scan.nextInt();
+            }
+        }
+        
+        int r, c;
+        r = n/2;
+        c = n/2;
+        
+        int moveCnt = 1;
+        int dir = 0;
+
+        while(true){
+            for(int i=0; i<2; i++){ //moveCnt;
+                for(int j=0; j<moveCnt; j++){
+                    spreadSand(r, c, dir);
+                    r += dr[dir];
+                    c += dc[dir];
+                }
+                //방향 전환
+                dir = (dir+1)%4;
+            }
+            moveCnt++;
+    
+            if(moveCnt==n){
+                for(int i=0; i<moveCnt-1; i++){
+                    spreadSand(r, c, dir);
+                    r += dr[dir];
+                    c += dc[dir];
+                }
+                break;
+            }
+        }
+
+        System.out.println(answer);
+    }
+    
+    public void spreadSand(int r, int c, int dir){
+        int nr = r + dr[i];
+        int nc = c + dc[i]; 
+        int curr = sand[nr][nc];
+        
+        int temp = 0;
+        for(int i=0; i<9; i++){
+            int nnr = r + spreadR[dir][i];
+            int nnc = c + spreadC[dir][i];
+            
+            int plus = curr*(percent[i]/100);
+            
+            if(nnr<0 || nnc<0 || nnr>=n || nnc>=n){
+                //격자 밖으로 나간 모래
+                answer += plus;
+            }
+            else{
+                sand[nnr][nnc] += plus;
+                
+            }
+            sand[nr][nc] -= plus;
+        }
+        
+        //a에 모래 이동
+        int ar = r + spreadR[dir][9];
+        int ac = c + spreadC[dir][9];
+        if(ar<0 || ac<0 || ar>=n || ac>=n ){
+            answer += sand[nr][nc];
+        }
+        else{
+            sand[ar][ac] += sand[nr][nc];
+        }
+        sand[nr][nc] = 0;
+        
+    }
+}
