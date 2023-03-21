@@ -1,0 +1,44 @@
+package heap_stack_dequeue;
+
+import java.util.*;
+
+class Pro_level2_64061 {
+    public int solution(int[][] board, int[] moves) {
+        int answer = 0;
+        //크레인을 모두 작동시킨 후 터트려져 사라진 인형의 개수를 return
+        int len = board.length;
+    
+        List<Queue<Integer>> list = new ArrayList<>();
+        for(int i=0; i<len; i++){
+            list.add(new LinkedList<>());
+        }
+        
+        for(int i=0; i<len; i++){
+            for(int j=0; j<len; j++){
+                if(board[j][i]!=0){
+                    list.get(i).add(board[j][i]);
+                }
+            }
+        }
+        
+        
+        Stack<Integer> box = new Stack<Integer>();
+        Queue<Integer> q;
+        for(int move:moves){
+            q = list.get(move-1);
+            
+            if(q.isEmpty()) continue;
+            
+            int doll = q.poll();
+                
+            if(!box.isEmpty() && doll==box.peek()){
+                answer += 2;
+                box.pop();
+            } 
+            else{
+                box.push(doll);
+            }
+        }
+        return answer;
+    }
+}
