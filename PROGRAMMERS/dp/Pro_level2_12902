@@ -1,0 +1,24 @@
+package dp;
+
+class Pro_level2_12902 {
+    public long solution(int n) {
+        long answer = 0;
+        //직사각형의 가로의 길이 n이 매개변수로 주어질 때, 이 직사각형을 채우는 방법의 수를 return
+        if(n%2!=0) return 0; //n이 홀수면 직사각형을 채우는게 불가능함
+        
+        long[] dp = new long[n+1];
+        dp[0] = 1;
+        dp[2] = 3;
+        for(int i=4; i<=n; i+=2){
+            dp[i] = dp[i-2]*3;
+            for(int j=i-4; j>=0; j-=2){
+                dp[i] += dp[j]*2;
+            }
+            dp[i] %= 1000000007;
+        }
+        
+        answer = dp[n];
+        
+        return answer;
+    }
+}
