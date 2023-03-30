@@ -112,15 +112,9 @@ public class boj_20058_java{
     }
 
     public static void rotate(int r, int c, int w, int[][] temp){
-        // for(int i=r; i<r+w; i++){
-        //     for(int j=c; j<c+w; j++){ 
-        //         temp[i][j] = board[r+w-j+c-1][i];
-        //     }
-        // }
         for (int i=0; i<w; i++) {
             for (int j=0; j<w; j++) {
-                //temp[r+j][c+w-i-1] = board[r+i][c+j];
-                temp[r + i][c + j] = board[r + w - 1 - j][c + i];
+                temp[r+i][c+j] = board[r+w-1-j][c+i];
             }
         }
     }
