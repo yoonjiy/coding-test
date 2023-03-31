@@ -64,6 +64,7 @@ public class sof_1309_java
                 else {
                     rank += cnt;
                     r[i][c[i][j].id] = rank;
+                    cnt = 1;
                 }
             }
         }
