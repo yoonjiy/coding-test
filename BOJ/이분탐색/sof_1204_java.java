@@ -16,9 +16,10 @@ public class sof_1204_java {
         for (int i = 0; i < N; i++) {
             capacity[i] = Integer.parseInt(str[i]);
         }
+
         Arrays.sort(capacity);
 
-        long low = capacity[0];
+        long low = capacity[0]; 
         long high = capacity[N - 1] + (long)Math.sqrt(B);
         long answer = 0;
         while (low <= high) {
