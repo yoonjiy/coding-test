@@ -2,6 +2,9 @@ package 트리;
 import java.util.*;
 import java.io.*;
 
+import java.util.*;
+import java.io.*;
+
 
 public class sof_1256_java
 {
@@ -22,33 +25,30 @@ public class sof_1256_java
                 tasks[i][j] = new LinkedList<>();
             }
         }
-        
-//        Queue<Integer>[] leafs = new Queue[leaf];
+
         for(int i=n-leaf; i<n; i++){
-  //          leafs[i] = new LinkedList<>();
             st = new StringTokenizer(br.readLine());
             for(int j=0; j<k; j++){
-                //leafs[i].add(Integer.parseInt(st.nextToken()));
                 tasks[i][0].add(Integer.parseInt(st.nextToken()));
             }
         }
 
         //r일 동안 일을 처리
         int answer = 0;
-        while(r > 0){
-
+        int day = 1;
+        while(day <= r){
             //부서장은 홀수일에 왼쪽 일을, 짝수일에 오른쪽 일을 처리해서 완료한다.
-            if(r%2==1 && !tasks[0][0].isEmpty()){
+            if(day%2==1 && !tasks[0][0].isEmpty()){
                 answer += tasks[0][0].poll();
             }
-            else if(r%2==0 && !tasks[0][1].isEmpty()){
+            else if(day%2==0 && !tasks[0][1].isEmpty()){
                 answer += tasks[0][1].poll();
             }
 
             //중간 직원은 홀수일에 왼쪽 일을, 짝수일에 오른쪽 일을 처리해서 올린다
             for(int i=1; i<n-leaf; i++){
                 int parent = (i-1)/2;
-                if(r%2==1 && !tasks[i][0].isEmpty()){ //홀수일
+                if(day%2==1 && !tasks[i][0].isEmpty()){ //홀수일
                     int task = tasks[i][0].poll();
                     if(i%2==1){ //본인이 왼쪽 자식
                         tasks[parent][0].offer(task);
@@ -57,7 +57,7 @@ public class sof_1256_java
                         tasks[parent][1].offer(task);
                     }
                 }
-                else if(r%2==0 && !tasks[i][1].isEmpty()){ //짝수일
+                else if(day%2==0 && !tasks[i][1].isEmpty()){ //짝수일
                     int task = tasks[i][1].poll();
                     if(i%2==1){ //본인이 왼쪽 자식
                         tasks[parent][0].offer(task);
@@ -82,7 +82,7 @@ public class sof_1256_java
                 }
             }
 
-            r--;
+            day++;
         }
 
         System.out.println(answer);
