@@ -11,7 +11,7 @@ public class boj_23290_java {
     static int dc[] = {-1, -1, 0, 1, 1, 1, 0, -1};
     static List<Fish> fishes;
     static int sr, sc; //상어의 위치
-    static boolean[][] smell; 
+    static int[][] smell; 
     static int[][] board; //물고기 수 저장
     static int[] sharkdir = {2, 1, 4, 3};
     static int[] reverseR = {-1, 0, 1, 0}; //상좌하우
@@ -41,7 +41,7 @@ public class boj_23290_java {
         m = Integer.parseInt(st.nextToken());
         s = Integer.parseInt(st.nextToken());
 
-        smell = new boolean[5][5]; //물고기 냄새
+        smell = new int[5][5]; //물고기 냄새
         board = new int[5][5]; //물고기 수
 
         fishes = new ArrayList<>();
@@ -67,18 +67,27 @@ public class boj_23290_java {
                 temp.add(new Fish(f.r, f.c, f.d)); //f를 그대로 추가하면 얕은 복사가 됨
             }
 
-            System.out.println();
+            System.out.println("물고기 이동 전");
             for(Fish f:fishes){
-                System.out.println(f.r + " " + f.c);
+                System.out.println(f.r + " " + f.c + " " + f.d);
             }
             System.out.println();
+
+            //냄새 증가
+            for(int i=1; i<=4; i++){
+                for(int j=1; j<=4; j++){
+                    if(smell[i][j]>0) smell[i][j]++;
+                }
+            }
+
             //2. 모든 물고기 이동
             moveFish(fishes);
 
-            System.out.println("물고기 이동");
+            System.out.println("물고기 이동 후");
             for(Fish f:fishes){
-                System.out.println(f.r + " " +f.c);
+                System.out.println(f.r + " " +f.c + " " + f.d);
             }
+            System.out.println();
 
             //3. 상어 연속 3칸 이동 (제외된 물고기 수가 가장 많은 순, 사전 순)
             boolean[][] visited = new boolean[5][5];
@@ -98,11 +107,19 @@ public class boj_23290_java {
 
             
             //상어 이동시키기 - fishes, board, smell이 변함
-            smell = new boolean[5][5]; //이전 냄새 소멸
             moveShark(list.get(0).way);
 
             System.out.println("상어 이동" + list.get(0).way);
             System.out.println("sr="+sr + " sc=" + sc);
+
+            //두번 전 연습에서 생긴 물고기 냄새 사라짐
+            for(int i=1; i<=4; i++){
+                for(int j=1; j<=4; j++){
+                    if(smell[i][j]>2){
+                        smell[i][j] = 0;
+                    }
+                }
+            }
 
             //4. 복제 마법 완료
             //fishes, board 변경
@@ -137,7 +154,7 @@ public class boj_23290_java {
                 if(f.r==sr && f.c==sc){
                     iter.remove();
                     board[sr][sc] = 0;
-                    smell[sr][sc] = true;
+                    smell[sr][sc] = 1;
                 }
             }
 
@@ -178,10 +195,11 @@ public class boj_23290_java {
                 int nr = f.r+dr[f.d];
                 int nc = f.c+dc[f.d];
 
-                if(nr<1 || nc<1 || nr>4 || nc>4 || smell[nr][nc] || (nr==sr && nc==sc)) {
+                if(nr<1 || nc<1 || nr>4 || nc>4 || smell[nr][nc]>0 || (nr==sr && nc==sc)) {
                     if(f.d==0) f.d = 7;
                     else f.d = (f.d-1)%8; //45도 반시계 회전
                     i++;
+
                     continue;
                 }
 
