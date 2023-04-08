@@ -16,6 +16,7 @@ public class boj_23290_java {
     static int[] sharkdir = {2, 1, 4, 3};
     static int[] reverseR = {-1, 0, 1, 0}; //상좌하우
     static int[] reverseC = {0, -1, 0, 1};
+    static boolean[][] visited;
     static class Fish{
         int r, c, d;
         
@@ -67,34 +68,22 @@ public class boj_23290_java {
                 temp.add(new Fish(f.r, f.c, f.d)); //f를 그대로 추가하면 얕은 복사가 됨
             }
 
-            System.out.println("물고기 이동 전");
-            for(Fish f:fishes){
-                System.out.println(f.r + " " + f.c + " " + f.d);
-            }
-            System.out.println();
 
-            //냄새 증가
+            //냄새 감소
             for(int i=1; i<=4; i++){
                 for(int j=1; j<=4; j++){
-                    if(smell[i][j]>0) smell[i][j]++;
+                    if(smell[i][j]>0) smell[i][j]--;
                 }
             }
 
             //2. 모든 물고기 이동
             moveFish(fishes);
 
-            System.out.println("물고기 이동 후");
-            for(Fish f:fishes){
-                System.out.println(f.r + " " +f.c + " " + f.d);
-            }
-            System.out.println();
 
             //3. 상어 연속 3칸 이동 (제외된 물고기 수가 가장 많은 순, 사전 순)
-            boolean[][] visited = new boolean[5][5];
-            
+            visited = new boolean[5][5];   
             List<Info> list = new ArrayList<>();
-            visited[sr][sc] = true;
-            dfs(sr, sc, "", visited, board[sr][sc], list);
+            dfs(sr, sc, "", board[sr][sc], list);
 
             list.sort(new Comparator<Info>(){
                 @Override
@@ -109,17 +98,6 @@ public class boj_23290_java {
             //상어 이동시키기 - fishes, board, smell이 변함
             moveShark(list.get(0).way);
 
-            System.out.println("상어 이동" + list.get(0).way);
-            System.out.println("sr="+sr + " sc=" + sc);
-
-            //두번 전 연습에서 생긴 물고기 냄새 사라짐
-            for(int i=1; i<=4; i++){
-                for(int j=1; j<=4; j++){
-                    if(smell[i][j]>2){
-                        smell[i][j] = 0;
-                    }
-                }
-            }
 
             //4. 복제 마법 완료
             //fishes, board 변경
@@ -137,7 +115,6 @@ public class boj_23290_java {
                 answer += board[i][j];
             }
         }
-
         System.out.println(answer);
 
     }
@@ -154,14 +131,14 @@ public class boj_23290_java {
                 if(f.r==sr && f.c==sc){
                     iter.remove();
                     board[sr][sc] = 0;
-                    smell[sr][sc] = 1;
+                    smell[sr][sc] = 3;
                 }
             }
 
         }
     }
 
-    static void dfs(int r, int c, String w, boolean[][] visited, int sum, List<Info> list){
+    static void dfs(int r, int c, String w, int sum, List<Info> list){
         if(w.length()==3){
             list.add(new Info(sum, w));
             return;
@@ -171,17 +148,17 @@ public class boj_23290_java {
             int nr = r + dr[i];
             int nc = c + dc[i];
 
-            if(nr<1 || nc<1 || nr>4 || nc>4 || visited[nr][nc]) continue;
+            if(nr<1 || nc<1 || nr>4 || nc>4) continue;
 
-            visited[nr][nc] = true;
-            //nr, nc에 해당하는 물고기 추가
-            sum += board[nr][nc];
-
-            //사전순 이동 방향. 좌상우하 0, 2, 4, 6 -> 2, 1, 4, 3 
-            dfs(nr, nc, w+String.valueOf(sharkdir[i/2]) , visited, sum, list);
-
-            visited[nr][nc] = false;
-            sum -= board[nr][nc];
+            if(!visited[nr][nc]){
+                visited[nr][nc] = true;     
+                //사전순 이동 방향. 좌상우하 0, 2, 4, 6 -> 2, 1, 4, 3 
+                dfs(nr, nc, w+String.valueOf(sharkdir[i/2]), sum+board[nr][nc], list);
+                visited[nr][nc] = false;
+            }
+            else{
+                dfs(nr, nc, w+String.valueOf(sharkdir[i/2]), sum, list);
+            }
         
         }
 
