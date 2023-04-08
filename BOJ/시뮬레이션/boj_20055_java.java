@@ -38,21 +38,9 @@ public class boj_20055_java {
                 belt[1]--;
                 if(belt[1]==0) cnt++;
             }
-
-            printBelt();
         }
 
         System.out.println(level);
-    }
-
-    public static void printBelt(){
-        for(int i=1; i<=2*n; i++){
-            System.out.print(belt[i] + " ");
-        }
-        for(int i=1; i<=2*n; i++){
-            System.out.print(robot[i] + " ");
-        }
-        System.out.println();
     }
 
     public static void moveRobot(){
