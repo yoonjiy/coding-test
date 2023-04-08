@@ -42,7 +42,6 @@ public class boj_21611_java {
                 int nr = r + dr[d-1]*i;
                 int nc = c + dc[d-1]*i;
 
-                crushed[board[nr][nc]]++;
                 board[nr][nc] = 0; //구슬 파괴
             }
 
@@ -51,21 +50,25 @@ public class boj_21611_java {
                 //구슬이 빈칸을 채우기 위해 이동
                 move();
 
+
+
                 //구슬 폭발 (4개 이상 연속하는 구슬에 대해) -> 폭발하는 구슬이 없을 때까지 반복
                 List<int[]> list = new ArrayList<>(); //폭발 하는 구슬 리스트
-                collect(list);
+                collect2(list);
 
                 if(list.size()==0) break;
 
                 explode(list);
+
             }
 
-            print();
             
             //구슬이 변화한다. 하나의 구슬 그룹이 구슬 두개로 변함. 구슬의 개수, 그룹을 이루고 있는 구슬의 번호
             split();
 
         }
+
+        System.out.println(crushed[1] + crushed[2]*2 + crushed[3]*3);
 
     }
 
@@ -79,12 +82,81 @@ public class boj_21611_java {
     }
     
     public static void split(){
+        int[][] temp = new int[n+1][n+1];
+        int cnt = 1;
+        int num = 1;
+        int r = 1, c = 1;
+        int nr = 1, nc = 1;
+        for (int i = 1; i < n*n; i++) {
+			r = sub[i][0];
+			c = sub[i][1];
+			if(board[r][c]==0)
+				break;
+			if(i!=n*n-1) {
+				nr = sub[i + 1][0];
+				nc = sub[i + 1][1];
+			}
+			if (i!=n*n-1 && board[nr][nc]==board[r][c]) { //끝에 도달하지 않았고 연속된 구슬인 동안
+				cnt++;
+			} else {
+				if(num>=n*n)
+					break;
+				int newr = sub[num][0];
+				int newc = sub[num][1];
+				num++;
+				if(num>=n*n)
+					break;
+				int newr2 = sub[num][0];
+				int newc2 = sub[num][1];
+				num++;
+				temp[newr][newc] = cnt;
+				temp[newr2][newc2] = board[r][c];
+				cnt = 1;
+			}
+		}
+
+		board = temp.clone();
     }
 
     public static void explode(List<int[]> list){
         for(int[] l:list){
+            crushed[board[l[0]][l[1]]]++;
             board[l[0]][l[1]] = 0;
         }
+    }
+
+    public static void collect2(List<int[]> list){
+        //4개 이상 연속하는 구슬이 있으면 폭발
+        List<int[]> sublist = new ArrayList<>();
+        int r = 1, c = 1;
+        int nr = 1, nc = 1;
+        int cnt = 1;
+        for(int i=1; i<n*n; i++){
+            r = sub[i][0];
+            c = sub[i][1];
+
+            if(board[r][c]==0) break; 
+
+            if(i!=n*n-1) { //끝이 아니라면 
+                nr = sub[i+1][0];
+                nc = sub[i+1][1];
+            } 
+
+            if(i!=n*n-1 && board[r][c]==board[nr][nc]){
+                sublist.add(new int[]{r, c});
+                cnt++;
+            }else{
+                sublist.add(new int[]{r, c});
+                if(cnt>=4){
+                    for(int[] s:sublist){
+                        list.add(s);
+                    }
+                }
+                sublist = new ArrayList<>();
+                cnt = 1;
+            }
+        }
+
     }
 
     public static void collect(List<int[]> list){
