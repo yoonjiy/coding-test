@@ -1,0 +1,80 @@
+package bfs_or_dfs;
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <string.h>
+#include <vector>
+#include <queue>
+#include <tuple>
+
+using namespace std;
+
+bool visited[101][101];
+int n, m;
+int r, c;
+int dr[] = {0, 0, -1, 1};
+int dc[] = {-1, 1, 0, 0};
+int ans;
+
+int bfs(vector<string> maps, int type){
+    fill(visited[0], visited[0]+10000, false);
+    visited[r][c] = true;
+    queue<tuple<int, int, int>> q;
+    q.push({r, c, 0});
+    
+    while(!q.empty()){
+        r = get<0>(q.front());
+        c = get<1>(q.front());
+        int d = get<2>(q.front());
+        q.pop();
+        
+        if(type==0 && maps[r][c]=='L'){
+            return d;
+        }
+        else if(type==1 && maps[r][c]=='E'){
+            return d;
+        }
+        
+        for(int i=0; i<4; i++){
+            int nr = r + dr[i];
+            int nc = c + dc[i];
+            
+            if(nr < 0 || nc < 0 || nr>=n || nc>=m || visited[nr][nc] || maps[nr][nc]=='X') continue;
+            
+
+            visited[nr][nc] = true;
+            q.push({nr, nc, d+1});
+        }
+    }
+    
+    return -1;
+    
+}
+
+
+int solution(vector<string> maps) {
+    int answer = 0;
+    // 미로를 탈출하는데 필요한 최소 시간을 return
+    
+    n = maps.size();
+    m = maps[0].length();
+
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            if(maps[i][j]=='S'){
+                r = i;
+                c = j;
+                break;
+            }
+        }
+    }
+
+    //1. 레버를 당기러 이동
+    int f = bfs(maps, 0);   
+    if(f==-1) return -1;
+    
+    //2. 출구를 찾으러 이동
+    int s = bfs(maps, 1);
+    if(s==-1) return -1;
+    return f+s;
+}
