@@ -7,7 +7,7 @@ public class boj_3980_선발명단 {
     static int t;
     static int[][] s;
     static boolean[] visited;
-    static int answer = Integer.MIN_VALUE;
+    static int answer;
     static int[] pos;
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,6 +17,7 @@ public class boj_3980_선발명단 {
         while(t-- > 0){
             s = new int[11][11];
             visited = new boolean[11];
+            answer = Integer.MIN_VALUE;
 
             for(int i=0; i<11; i++){
                 StringTokenizer st = new StringTokenizer(br.readLine());
@@ -39,11 +40,12 @@ public class boj_3980_선발명단 {
 
         for(int i=0; i<11; i++){
             //해당 포지션에 플레이어의 능력치가 0거나 이미 다른 포지션을 가졌다면 패스
-            if(!visited[i] && s[i][position]!=0) {
-                visited[i] = true;
-                dfs(position+1, sum+s[i][position]);
-                visited[i] = false;
-            }
+            if(visited[i] || s[i][position]==0) continue;
+
+            visited[i] = true;
+            dfs(position+1, sum+s[i][position]);
+            visited[i] = false;
+            
             
         }
     }
