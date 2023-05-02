@@ -7,6 +7,8 @@ public class boj_16508_전공책 {
     static String t;
     static int n;
     static int answer = Integer.MAX_VALUE;
+    static int[] count;
+    static int[] select;
     static boolean[] visited;
     static int[] price;
     static String[] book;
@@ -20,70 +22,50 @@ public class boj_16508_전공책 {
         StringTokenizer st;
         price = new int[n];
         book = new String[n];
+        count = new int[26];
+        select = new int[26];
+
+        for(int i=0; i<t.length(); i++){
+            count[t.charAt(i)-'A']++;
+        }
+
         for(int i=0; i<n; i++){
             st = new StringTokenizer(br.readLine());
             price[i] = Integer.parseInt(st.nextToken());
             book[i] = st.nextToken();
         }
 
+        dfs(0, 0);
 
-        for(int i=1; i<=n; i++){
-            //i권의 전공책 선택 
-            visited = new boolean[n];
-
-            int[] comb = new int[i];
-            dfs(0, i, 0, comb, 0);
-
-            if(answer!=Integer.MAX_VALUE) break;
-        }
-
-        if(answer==Integer.MAX_VALUE) System.out.println(-1);
-        else System.out.println(answer);
-        
+        System.out.println((answer==Integer.MAX_VALUE) ? -1 : answer);
+    
     }
 
-    public static void dfs(int depth, int end, int idx, int[] comb, int sum){
-        if(depth==end){
-            //i권의 전공책 조합을 선택, 원하는 글자 t를 만들 수 있다면
-            if(check(comb)){
-                if(sum < answer){
-                    answer = sum;
-                }
+    public static void dfs(int depth, int sum){
+        if(depth==n){
+            //n개의 전공책에 대한 선택이 모두 끝나면
+            if(check()){
+                answer = Math.min(answer, sum);
             }
             return;
         }
 
-        for(int i=idx; i<n; i++){
-            if(visited[i]) continue;
-
-            visited[i] = true;
-            comb[depth] = i;
-            dfs(depth+1, end, i+1, comb, sum+price[i]);
-
-            visited[i] = false;
+        //depth번째 전공책을 선택하는 경우
+        for(int i=0; i<book[depth].length(); i++){
+            select[book[depth].charAt(i)-'A']++;
         }
+        dfs(depth+1, sum+price[depth]);
+
+        //depth번째 전공책을 선택하지 않는 경우
+        for(int i=0; i<book[depth].length(); i++){
+            select[book[depth].charAt(i)-'A']--; //원상 복구
+        }
+        dfs(depth+1, sum);
     }
     
-    public static boolean check(int[] comb){
-        char[] chars = t.toCharArray();
-        boolean[] included = new boolean[t.length()];
-        for(int c:comb){
-            //해당 전공책들로 원하는 글자를 만들 수 있는지 확인
-            String b = book[c];
-            for(int i=0; i<b.length(); i++){
-                char bc = b.charAt(i);
-                for(int j=0; j<chars.length; j++){
-                    if(included[j]) continue;
-                    if(bc==chars[j]){
-                        included[j] = true;
-                        break;
-                    }
-                }
-            }
-        }
-
-        for(int i=0; i<chars.length; i++){
-            if(!included[i]) return false;
+    public static boolean check(){
+        for(int i=0; i<26; i++){
+            if(count[i] > select[i]) return false;
         }
 
         return true;
