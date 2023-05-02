@@ -36,7 +36,6 @@ public class boj_16937_두스티커 {
     public static void dfs(int cnt, int idx, int[] s){
         if(cnt==2){
             //2개가 선택되었으면
-            System.out.println("selected: " + s[0] + " " +s[1]);
             answer = Math.max(answer, calculate(s));
             return;
         }
