@@ -24,22 +24,22 @@ public class boj_20207_달력 {
             }
         }
 
-        int answer = 0;
+        int sum = 0;
+        int width = 0, height = 0;
         for(int i=1; i<=365; i++){
-            if(cnt[i]==0) continue;
-            int width = 0;
-            int height = 0;
-            while(cnt[i]!=0){
-                height = Math.max(height, cnt[i]);
-                width++;
-                i++;
+            if (cnt[i] == 0) {
+                sum += height*width;
+                height = width = 0;
+                continue;
             }
 
-            answer += width*height;
-
+            width++;
+            height = Math.max(height, cnt[i]);
         }
 
-        System.out.println(answer);
+        sum += height*width;
+
+        System.out.println(sum);
     }
     
 }
